@@ -14,7 +14,7 @@ header {
     text-align: center;
 }
 
-.wtd {
+#message {
     text-align: center;
 }
 
@@ -25,3 +25,5 @@ header {
 .deal {
     width: 50px;
 }
+
+

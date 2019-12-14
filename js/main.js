@@ -209,20 +209,22 @@ const deck = {
     },
     acediamonds: {
         value: 11,
-        value2: 1
+        value2: 1,
         img: "./assets/cards/hearts/ace_of_diamonds.png"
-    },
+    }
 }
 
+let playedCards = [];
 
 /*----- app's state (variables) -----*/
 
-let playerBalance = 
+let playerScore, dealerScore
 
 
 /*----- cached element references -----*/
 
 
+playerMoney = 100
 
 
 /*----- event listeners -----*/
@@ -256,21 +258,33 @@ document.getElementById('dd').addEventListener('click', doubleDown)
   render()
 } */
 
-function betOne() {
-    alert('button One working')
-}
+/* function bet(playerbet) {
+    //make sure player has enough money to play
+    if(playerbet > money){
+      document.getElementById('message').innerHTML = "Not enough money!";
+    }
+} */
 
-function betFive() {
-    alert('button Five working')
-}
+    function betOne() {
+        document.getElementById('message').innerHTML = 'You bet $1';
+        document.getElementById('balance').innerHTML = playerMoney - 1
+    }
 
-function betTwoFive() {
-    alert('button Two Five working')
-}
+    function betFive() {
+        document.getElementById('message').innerHTML = 'You bet $5';
+        document.getElementById('balance').innerHTML = playerMoney - 5
+    }
 
-function betOneHun() {
-    alert('button One Hun working')
-}
+    function betTwoFive() {
+        document.getElementById('message').innerHTML = 'You bet $25';
+        document.getElementById('balance').innerHTML = playerMoney - 25
+    }
+
+    function betOneHun() {
+        document.getElementById('message').innerHTML = 'You bet $100';
+        document.getElementById('balance').innerHTML = playerMoney - 100
+    }
+
 
 function deal() {
     alert('button deal working')
