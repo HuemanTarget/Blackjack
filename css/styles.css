@@ -1,0 +1,27 @@
+body {
+    background-color: #008000;
+}
+
+header {
+    text-align: center;
+}
+
+.dealcards {
+    text-align: center;
+}
+
+.playcards {
+    text-align: center;
+}
+
+.wtd {
+    text-align: center;
+}
+
+.bet {
+    display: block;
+}
+
+.deal {
+    width: 50px;
+}

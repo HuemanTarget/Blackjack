@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+      integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7"
+      crossorigin="anonymous"/>
+    <script
+        src="https://code.jquery.com/jquery-3.2.1.min.js"
+        integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+        crossorigin="anonymous">
+    </script>
+    <link rel="stylesheet" href="./css/styles.css">
+    <script defer src="./js/main.js"></script>
+    <title>Blackjack</title>
+</head>
+<body>
+    <header>
+        <h1>BLACKJACK</h1>
+        <p>The game of Kings!</p>
+        <a class="inst" href="#">Instructions</a>
+    </header>
+    <main>
+        <div class="dealcards">
+            <h3 class="dealer">Dealer</h3>
+            <img class="dealfd" src="./assets/cards/Spades/king_of_spades.png" alt="Image" height="125">
+            <img class="dealfu" src="assets/cards/Spades/ace_of_spades.png" alt="Image" height="125">
+        </div>
+        <div class="playcards">
+            <h3 class="player">Player</h3>
+            <img class="dealfd" src="./assets/cards/Spades/king_of_spades.png" alt="Image" height="125">
+            <img class="dealfu" src="assets/cards/Spades/ace_of_spades.png" alt="Image" height="125">
+        </div>
+        <h2 class="wtd">Please Place A Bet!</h2>
+        <div class="bet">
+            <h2>Player Balance: $<span id="balance"></span>100</span></h2>
+        </div>
+        <div class="chips">
+            <button id="5" type = "button"> <img src = "./assets/chips/156278108305512313248366910.png" lt="Image" height="50" > </button>
+            <button id="10" type = "button"> <img src = "./assets/chips/156278108305512313248366910.png" lt="Image" height="50" > </button>
+            <button id="25" type = "button"> <img src = "./assets/chips/156278108305512313248366910.png" lt="Image" height="50" > </button>
+            <button id="50" type = "button"> <img src = "./assets/chips/156278108305512313248366910.png" lt="Image" height="50" > </button>
+            <button type="button" class="btn btn-primary">DEAL</button>
+            <button type="button" class="btn btn-primary">DEAL</button>
+            <button type="button" class="btn btn-outline-success">Success</button>
+            
+           
+        </div>
+    </main>
+    
+</body>
+</html>
