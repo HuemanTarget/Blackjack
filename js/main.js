@@ -481,8 +481,13 @@ const cards = [
     }
 ];
 
+/* const cardsTwo = ['2h', '2']
+
+const debug = true; */
+
 let playedCards = [];
-let shuffledDeck = [];
+let shuffledDeck = [...cards];
+
 
 /*----- app's state (variables) -----*/
 
@@ -513,42 +518,23 @@ function initialize() {
     playerMoney = 100
     dealerScore = 0
     playerScore = 0
+    shuffle();
 
-    winner = null
 }
-/*initialize()
-   
-    function initialize() {
-    scores = {
-    p: 0,
-    c: 0,
-    t: 0,
-  }
-  
-  results = {
-    p: 'r',
-    c: 'r',
-  }
-  winner = null
-  render()
-} */
 
-/* function bet(playerbet) {
-    //make sure player has enough money to play
-    if(playerbet > money){
-      document.getElementById('message').innerHTML = "Not enough money!";
-    }
-} */
+function shuffle() {
+for(let i = shuffledDeck.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * i)
+    const temp = shuffledDeck[i]
+    shuffledDeck[i] = shuffledDeck[j]
+    shuffledDeck[j] = temp
+  }
+}
 
-/* function shuffle (cards) {
-    for (let i = 0; i > cards.length - 1; i -= 1) {
-      j = Math.floor(Math.random() * (i + 1))
-      temp = cards[i]
-      cards[i] = cards[j]
-      cards[j] = temp
-      console.log(cards[i])
-    }    
-} */
+
+function dealCards() {
+
+}
 
 function player() {
     document.getElementById('balance').innerHTML = playerMoney - 1
@@ -577,8 +563,8 @@ function player() {
 
 
 function deal() {
-    let cardOne = document.querySelector('.cardone').src = cards[0].img
-    let cardTwo = document.querySelector('.cardtwo').src = cards[15].img
+    let cardOne = document.querySelector('.cardone').src = shuffledDeck[0].img
+    let cardTwo = document.querySelector('.cardtwo').src = shuffledDeck[15].img
     let cardThree = document.querySelector('.cardthree').src = cards[45].img
     document.querySelector('.cardfour').src = './assets/cards/back_of_card.png'
     document.getElementById('playerscore').innerHTML = cards[0].value + cards[45].value
