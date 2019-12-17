@@ -37,3 +37,11 @@ header {
 .player {
     text-align: center;
 }
+
+#playerscore {
+    text-align: center;
+}
+
+#dealerscore {
+    text-align: center;
+}
