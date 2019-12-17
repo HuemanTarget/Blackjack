@@ -222,16 +222,23 @@ let playerScore, dealerScore, playerMoney, playerBet, message, playerHand, deale
 
 /*----- cached element references -----*/
 
-let pCardOne = document.querySelector('.cardone')
+/* let pCardOne = document.querySelector('.cardone')
 let dCardOne = document.querySelector('.cardtwo')
 let pCardTwo = document.querySelector('.cardthree')
-let dCardTwo = document.querySelector('.cardfour')
-let pCardThree = document.querySelector('.cardfive')
+let dCardTwo = document.querySelector('.cardfour') */
+let dCardTwoBack = document.querySelector('.cardfour')
+/* let pCardThree = document.querySelector('.cardfive')
 let pCardFour = document.querySelector('.cardsix')
 let pCardFive = document.querySelector('.cardseven')
 let dCardThree = document.querySelector('.cardeight')
 let dCardFour = document.querySelector('.cardnine')
-let dCardFive = document.querySelector('.cardten')
+let dCardFive = document.querySelector('.cardten') */
+let playerCards = document.querySelector('.playcards')
+let dealerCards = document.querySelector('.dealcards')
+let dealButton = document.getElementById('deal')
+let hitButton = document.getElementById('hit')
+let standButton = document.getElementById('stand')
+let ddButton = document.getElementById('dd')
 
 
 /*----- event listeners -----*/
@@ -254,20 +261,24 @@ function initialize() {
     playerMoney = 100
     dealerScore = 0
     playerScore = 0
-    pCardOne.img =
-    pCardTwo.img =
-    dCardOne.img =
-    dCardTwo.img =
     playerHand = []
     dealerHand = []
     cardsPlayed = []
     shuffle();
     message = ''
-    bjDrawMessage = ''
-    bjLoseMessage = ''
-    hsdMessage = ''
-    hsMessage = ''
-    render();
+    dealButton.disabled = false
+    hitButton.disabled = true
+    standButton.disabled = true
+    ddButton.disabled = true
+    // bjDrawMessage = ''
+    // bjLoseMessage = ''
+    // hsdMessage = ''
+    // hsMessage = ''
+    // dWinMessage = ''
+    // pWinMessage = ''
+    // dBustMessage = ''
+    // pBustMessage = ''
+    render()
 }
 
 function shuffle() {
@@ -279,30 +290,21 @@ for(let i = shuffledDeck.length - 1; i > 0; i--) {
   }
 }
 
-console.table(shuffledDeck)
+// console.table(shuffledDeck)
 
-/* function bet() {
-    if (playerBet > playerMoney) {
-        return 'You do not have enough money to play!'
-    }
-
-} */
 
 /* function betOne() {
     document.getElementById('message').innerHTML = 'You bet $1. Press Deal To Play!';
     return document.getElementById('balance').innerHTML = playerMoney - 1
 }
-
 function betFive() {
     document.getElementById('message').innerHTML = 'You bet $5. Press Deal to Play!';
     return document.getElementById('balance').innerHTML = playerMoney - 5
 }
-
 function betTwoFive() {
     document.getElementById('message').innerHTML = 'You bet $25. Press Deal to Play!';
     document.getElementById('balance').innerHTML = playerMoney - 25
 }
-
 function betOneHun() {
     document.getElementById('message').innerHTML = 'You bet $100. Press Deal to Play!';
     document.getElementById('balance').innerHTML = playerMoney - 100
@@ -315,62 +317,104 @@ function deal() {
     let dCardTwo = shuffledDeck.shift()
     playerHand = [pCardOne, pCardTwo]
     dealerHand = [dCardOne, dCardTwo]
-    console.log(pCardOne.value, pCardTwo.value)
     if(pCardOne.value + pCardTwo.value === 21 && dCardOne.value + dCardTwo.value != 21) {
         message = 'You hit Blackjack and win!'
+        hitButton.disabled = true
+        standButton.disabled = true
     }else if(pCardOne.value + pCardTwo.value === 21 && dCardOne.value + dCardTwo.value === 21) {
         message = 'You both hit Blackjack. Draw!'
+        hitButton.disabled = true
+        standButton.disabled = true
     }else if(pCardOne.value + pCardTwo.value != 21 && dCardOne.value + dCardTwo.value === 21) {
         message = 'Dealer got Blackjack. You Lose!'
+        hitButton.disabled = true
+        standButton.disabled = true
     }else if(pCardOne.value + pCardTwo.value === 10 || pCardOne.value + pCardTwo.value === 11) {
         message = 'Hit, Stand, or Double Down!'
+        hitButton.disabled = false
+        standButton.disabled = false
+        ddButton.disabled = false
     }else{
         message = 'Hit or Stand!'
+        hitButton.disabled = false
+        standButton.disabled = false
+        dealButton.disabled = true
     }
+    playerScore = pCardOne.value + pCardTwo.value
     render();
 }
 
 
-// function hit() {
-//     let pCardThree = shuffledDeck.shift().img
-//     let pCardFour = shuffledDeck.shift().img
-//     let pCardFive = shuffledDeck.shift().img
-//     playerHand = [pCardOne, pCardTwo, pCardThree, pCardFour, pCardFive]
-//     /* document.querySelector('.cardfive').src = shuffledDeck[4].img
-//     if(shuffledDeck[0].value + shuffledDeck[2].value + shuffledDeck[4].value > 21) {
-//         document.getElementById('playerscore').innerHTML = shuffledDeck[0].value + shuffledDeck[2].value + shuffledDeck[4].value
-//         return document.getElementById('message').innerHTML = 'You Busted! You Lose!'
-//     }else{
-//         document.getElementById('playerscore').innerHTML = shuffledDeck[0].value + shuffledDeck[2].value + shuffledDeck[4].value
-//         return document.getElementById('message').innerHTML = 'Hit or Stand!'
-//     }*/
-// }
-
-
-
-/* function stand() {
-    document.querySelector('.cardfour').src = shuffledDeck[3].img
-    document.getElementById('dealerscore').innerHTML = shuffledDeck[1].value + shuffledDeck[3].value
-    if(shuffledDeck[1].value + shuffledDeck[3].value <= 16) {
-        document.querySelector('.cardeight').src = shuffledDeck[5].img 
-        document.getElementById('dealerscore').innerHTML = shuffledDeck[1].value + shuffledDeck[3].value + shuffledDeck[5].img
-        document.querySelector('.cardnine').src = shuffledDeck[5].img 
-        document.getElementById('dealerscore').innerHTML = shuffledDeck[1].value + shuffledDeck[3].value + shuffledDeck[5].img
-} */
-
-function doubleDown() {
-    alert('button Double Down working')
+function hit() {
+    let pCardThree = shuffledDeck.shift()
+    playerHand = [...playerHand, pCardThree]
+    if(playerScore > 21) {
+        message = 'You Busted! You Lose!'
+    }else{
+        message = 'Hit of Stand!'
+    }
+    render();
 }
 
+function doubleDown() {
+    let pCardThree = shuffledDeck.shift()
+    playerHand = [...playerHand, pCardThree]
+    hitButton.disabled = true
+    standButton.disbaled = false
+    dealButton.disabled = true
+    ddButton = true
+    render();
+    stand();
+}
+
+function stand() {
+    hitButton.disabled = true
+    standButton.disbaled = true
+    if(dealerHand[0].value + dealerHand[1] <= 16) {
+        let dCardThree = shuffledDeck.shift()
+        dealerHand = [...dealerHand, dCardThree]
+    }
+   render();
+}
+
+
 function render() {
+    playerCards.innerHTML = ''
+    playerScore = 0
+    for(let i = 0; i < playerHand.length; i++) {
+        let img = document.createElement('img');
+        img.src = playerHand[i].img
+        img.classList.add('card')
+        playerCards.appendChild(img)
+        playerScore += playerHand[i].value
+    }
+    console.log(playerScore)
+
+    dealerCards.innerHTML =''
+    dealerScore = 0
+    for(let j = 0; j < dealerHand.length; j++) {
+        let img = document.createElement('img');
+        img.src = dealerHand[j].img
+        img.classList.add('card')
+        dealerCards.appendChild(img)
+        dealerScore += dealerHand[j].value
+    }
+
+    console.log(dealerScore)
     // pCardOne.src = playerHand.length === 0 ? '' : playerHand[0].img;
-    pCardOne.src = playerHand[0].img
-    dCardOne.src = dealerHand[0].img
-    pCardTwo.src = playerHand[1].img
-    dCardTwo.src = dealerHand[1].img
-    /* pCardThree.src = playerHand[2]
-    pCardFour.src = playerHand[3]
-    pCardFive.src = playerHand[4] */
+    // pCardOne.src = playerHand[0] && playerHand[0].img
+    // dCardOne.src = dealerHand[0] && dealerHand[0].img
+    // pCardTwo.src = playerHand[1] && playerHand[1].img
+    // dCardTwo.src = dealerHand[1] && dealerHand[1].img
+    // dCardTwoBack.src = './assets/cards/back_of_card.png'
+    // pCardThree.src = playerHand[2].img
+    // pCardFour.src = playerHand[3].img
+    // pCardFive.src = playerHand[4].img
+    // pCardThree.src = playerHand[2]
+    // pCardFour.src = playerHand[3]
+    // pCardFive.src = playerHand[4]
+    // document.getElementById('playerscore').innerHTML = playerHand[0].value + playerHand[1].value + playerHand[2].value
     document.getElementById('message').innerHTML = message
-    // document.getElementById('playerscore').innerHTML = shuffledDeck[0].value + shuffledDeck[2].value
+    // pCardThree.src = playerHand[2].img
+    
 }
