@@ -215,14 +215,15 @@ const cards = [
 let shuffledDeck = [...cards];
 
 
+
 /*----- app's state (variables) -----*/
 
-let playerScore, dealerScore, playerMoney, message, playerHand, dealerHand, cardsPlayedbetFi
+let playerScore, dealerScore, playerMoney, message, playerHand, dealerHand, cardsPlayedbetFi, dealerTurn
 
 
 /*----- cached element references -----*/
 
-let dCardTwoBack = document.querySelector('.cardfour')
+let dCardTwo = document.getElementById('cardfour')
 let playerCards = document.querySelector('.playcards')
 let dealerCards = document.querySelector('.dealcards')
 let dealButton = document.getElementById('deal')
@@ -260,6 +261,7 @@ function initialize() {
     cardsPlayed = []
     pBet = 0
     pWin = 0
+    bjWin = 0
     shuffle();
     message = 'Place Your Bet!'
     pDisplayScore = ''
@@ -272,10 +274,12 @@ function initialize() {
     betFiveButton.disabled = false
     betTwoFiveButton.disabled = false
     betOneHunButton.disabled = false
-    /* pCardOne.src = './assets/cards/back_of_card.png'
-    pCardTwo.src = './assets/cards/back_of_card.png'
-    dCardOne.src = './assets/cards/back_of_card.png'
-    dCardTwo.src = './assets/cards/back_of_card.png' */
+    dealerTurn = false
+    // dTwoCard.src = './assets/cards/back_of_card.png'
+    // pCardOne.src = './assets/cards/back_of_card.png'
+    // pCardTwo.src = './assets/cards/back_of_card.png'
+    // dCardOne.src = './assets/cards/back_of_card.png'
+    // dCardTwo.src = './assets/cards/back_of_card.png'
     render()
 }
 
@@ -292,7 +296,10 @@ for(let i = shuffledDeck.length - 1; i > 0; i--) {
 
 function betOne() {
     pBet = 1
-    pWin = 1
+    if(pBet > playerMoney) {
+        message = "Not enough money to bet!"
+    }
+    playerMoney = playerMoney - pBet
     message = 'You bet $1. Such a big spender!'
     render();
     betOneButton.disabled = true
@@ -304,7 +311,7 @@ function betOne() {
 
 function betFive() {
     pBet = 5
-    pWin = 5
+    playerMoney = playerMoney - pBet
     message = 'You bet $5. Someone is wearing their big boy pants!'
     render();
     betOneButton.disabled = true
@@ -316,6 +323,7 @@ function betFive() {
 
 function betTwoFive() {
     pBet = 25
+    playerMoney = playerMoney - pBet
     message = 'You bet $25. Looks like someone got their allowance this week!'
     render();
     betOneButton.disabled = true
@@ -327,6 +335,10 @@ function betTwoFive() {
 
 function betOneHun() {
     pBet = 100
+    if(pBet > playerMoney) {
+        message = "Not enough money to bet!"
+    }
+    playerMoney = playerMoney - pBet
     message = 'You bet $100. Better pay up if you lose!'
     render();
     betOneButton.disabled = true
@@ -338,46 +350,37 @@ function betOneHun() {
 
 
 function deal() {
-    
+    render();
+    dDisplayScore = 0
+    dealerTurn = false
+    render();
     let pCardOne = shuffledDeck.shift()
     let dCardOne = shuffledDeck.shift()
     let pCardTwo = shuffledDeck.shift()
     let dCardTwo = shuffledDeck.shift()
     playerHand = [pCardOne, pCardTwo]
     dealerHand = [dCardOne, dCardTwo]
-    // dealerHand[1].img = './assets/cards/back_of_card.png'
     render();
     dealButton.disabled = true
+    standButton.disabled = false
+    hitButton.disabled = false
     if(pCardOne.value + pCardTwo.value === 21 && dCardOne.value + dCardTwo.value != 21) {
         message = 'You hit Blackjack and win!'
-        betOneButton.disabled = false
-        betFiveButton.disabled = false
-        betTwoFiveButton.disabled = false
-        betOneHunButton.disabled = false
-        dealButton.disabled = true
+        dealerTurn = true
+        bj();
     }else if(pCardOne.value + pCardTwo.value === 21 && dCardOne.value + dCardTwo.value === 21) {
         message = 'You both hit Blackjack. Draw!'
-        betOneButton.disabled = false
-        betFiveButton.disabled = false
-        betTwoFiveButton.disabled = false
-        betOneHunButton.disabled = false
-        dealButton.disabled = true
+        dealerTurn = true
+        draw();
     }else if(pCardOne.value + pCardTwo.value != 21 && dCardOne.value + dCardTwo.value === 21) {
         message = 'Dealer got Blackjack. You Lose!'
-        betOneButton.disabled = false
-        betFiveButton.disabled = false
-        betTwoFiveButton.disabled = false
-        betOneHunButton.disabled = false
-        dealButton.disabled = true
+        dealerTurn = true
+        lose();
     }else if(pCardOne.value + pCardTwo.value === 10 || pCardOne.value + pCardTwo.value === 11) {
         message = 'Hit, Stand, or Double Down!'
-        hitButton.disabled = false
-        standButton.disabled = false
         ddButton.disabled = false
     }else{
         message = 'Hit or Stand!'
-        hitButton.disabled = false
-        standButton.disabled = false
     }
     pDisplayScore = playerScore
     render();
@@ -386,6 +389,7 @@ function deal() {
 
 function hit() {
     let pCardThree = shuffledDeck.shift()
+    standButton.disabled = false
     playerHand = [...playerHand, pCardThree]
     render();
     if(playerScore > 21 && playerHand[0].value === 11) {
@@ -403,20 +407,18 @@ function hit() {
     render();
     if(playerScore > 21) {
         message = 'You Busted! You Lose!'
-        hitButton.disabled = true
-        standButton.disabled = true
-        ddButton.disabled = true
+        render();
+        lose();
     }else{
         message = 'Hit of Stand!'
     }
     pDisplayScore = playerScore
-    standButton.disabled = false
-    ddButton.disabled = true
     render();
 }
 
 
 function doubleDown() {
+    playerMoney - pBet
     let pCardThree = shuffledDeck.shift()
     playerHand = [...playerHand, pCardThree]
     render();
@@ -430,13 +432,13 @@ function doubleDown() {
 }
 
 function stand() {
-    dealerHand[1].img
+    dealerTurn = true
     hitButton.disabled = true
     standButton.disabled = true
     dealButton.disabled = true
     ddButton.disabled = true
-    dDisplayScore = dealerScore
     render();
+    dDisplayScore = dealerScore
     if(dealerScore <= 16) {
         let dCardThree = shuffledDeck.shift()
         dealerHand = [...dealerHand, dCardThree]
@@ -471,20 +473,78 @@ function stand() {
     
     if(dealerScore > 21) {
         message = 'Dealer Busts! You Win!'
+        win();
     }else if(playerScore > dealerScore && playerScore <= 21) {
         message = 'You Win!'
+        win();
     }else if(playerScore === dealerScore && playerScore <= 21) {
         message = 'Draw!'
+        draw();
     }else if(playerScore < dealerScore && playerScore <= 21) {
         message = "Dealer Wins! You Lose!"
+        lose();
     }else{
         message = 'Dealer Wins! You Lose!'
+        lose();
     }
 
    render();
 }
 
-shuffle();
+function win() {
+    playerMoney = playerMoney + (pBet * 2)
+    shuffledDeck = [...shuffledDeck, ...dealerHand, ...playerHand]
+    shuffle();
+    render();
+    betOneButton.disabled = false
+    betFiveButton.disabled = false
+    betTwoFiveButton.disabled = false
+    betOneHunButton.disabled = false
+    dealButton.disabled = true
+    standButton.disabled = true
+}
+
+function lose() {
+    shuffledDeck = [...shuffledDeck, ...dealerHand, ...playerHand]
+    shuffle();
+    render();
+    betOneButton.disabled = false
+    betFiveButton.disabled = false
+    betTwoFiveButton.disabled = false
+    betOneHunButton.disabled = false
+    dealButton.disabled = true
+    standButton.disabled = true
+    ddButton.disabled = true
+    hitButton.disabled = true
+}
+
+function draw() {
+    playerMoney = playerMoney + pBet
+    shuffledDeck = [...shuffledDeck, ...dealerHand, ...playerHand]
+    shuffle();
+    render();
+    betOneButton.disabled = false
+    betFiveButton.disabled = false
+    betTwoFiveButton.disabled = false
+    betOneHunButton.disabled = false
+    dealButton.disabled = true
+    standButton.disabled = true
+    ddButton.disabled = true
+}
+
+function bj() {
+    playerMoney = playerMoney + pBet + (pBet * 2)
+    cardsPlayed = [...dealerHand, ...playerHand]
+    shuffle();
+    render();
+    betOneButton.disabled = false
+    betFiveButton.disabled = false
+    betTwoFiveButton.disabled = false
+    betOneHunButton.disabled = false
+    dealButton.disabled = true
+    standButton.disabled = true
+    ddButton.disabled = true
+}
 
 function render() {
     playerCards.innerHTML = ''
@@ -501,14 +561,20 @@ function render() {
     dealerScore = 0
     for(let j = 0; j < dealerHand.length; j++) {
         let img = document.createElement('img');
+        if(dealerTurn === false && j === 1) {
+            img.src = './assets/cards/back_of_card.png'
+            img.classList.add('card')
+        dealerCards.appendChild(img)
+        } else {
         img.src = dealerHand[j].img
         img.classList.add('card')
         dealerCards.appendChild(img)
-        dealerScore += dealerHand[j].value
+        dealerScore += dealerHand[j].value}
     }
     
     document.getElementById('message').innerHTML = message
     document.getElementById('playerscore').innerHTML = pDisplayScore
     document.getElementById('dealerscore').innerHTML = dDisplayScore
-    document.getElementById('balance').innerHTML = playerMoney - pBet
+    document.getElementById('balance').innerHTML = playerMoney
+    
 }
