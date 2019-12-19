@@ -296,56 +296,70 @@ for(let i = shuffledDeck.length - 1; i > 0; i--) {
 
 function betOne() {
     pBet = 1
-    if(pBet > playerMoney) {
-        message = "Not enough money to bet!"
-    }
+    if(1 > playerMoney) {
+        message = "Not enough money to bet! Please pick a lower amount!"
+        dealButton.disabled = true
+    }else{
     playerMoney = playerMoney - pBet
-    message = 'You bet $1. Such a big spender!'
-    render();
+    message = 'You bet $1. Look at the BIG Spender!'
     betOneButton.disabled = true
     betFiveButton.disabled = true
     betTwoFiveButton.disabled = true
     betOneHunButton.disabled = true
-    dealButton.disabled = false  
+    dealButton.disabled = false 
+    }  
+    render();  
 }
 
 function betFive() {
     pBet = 5
+    if(5 > playerMoney) {
+        message = "Not enough money to bet! Please pick a lower amount!"
+        dealButton.disabled = true
+    }else{
     playerMoney = playerMoney - pBet
-    message = 'You bet $5. Someone is wearing their big boy pants!'
-    render();
+    message = 'You bet $5. Someone is feeling BALLSY today'
     betOneButton.disabled = true
     betFiveButton.disabled = true
     betTwoFiveButton.disabled = true
     betOneHunButton.disabled = true
-    dealButton.disabled = false  
+    dealButton.disabled = false 
+    }  
+    render(); 
 }
 
 function betTwoFive() {
     pBet = 25
+    if(25 > playerMoney) {
+        message = "Not enough money to bet! Please pick a lower amount!"
+        dealButton.disabled = true
+    }else{
     playerMoney = playerMoney - pBet
-    message = 'You bet $25. Looks like someone got their allowance this week!'
-    render();
+    message = 'You bet $25. Look at the BIG Baller!'
     betOneButton.disabled = true
     betFiveButton.disabled = true
     betTwoFiveButton.disabled = true
     betOneHunButton.disabled = true
-    dealButton.disabled = false    
+    dealButton.disabled = false 
+    }  
+    render();   
 }
 
 function betOneHun() {
     pBet = 100
-    if(pBet > playerMoney) {
-        message = "Not enough money to bet!"
-    }
+    if(100 > playerMoney) {
+        message = "Not enough money to bet! Please pick a lower amount!"
+        dealButton.disabled = true
+    }else{
     playerMoney = playerMoney - pBet
-    message = 'You bet $100. Better pay up if you lose!'
-    render();
+    message = 'You bet $100. Your loss will help put my kids through college!'
     betOneButton.disabled = true
     betFiveButton.disabled = true
     betTwoFiveButton.disabled = true
     betOneHunButton.disabled = true
-    dealButton.disabled = false   
+    dealButton.disabled = false 
+    }  
+    render();
 }
 
 
@@ -455,6 +469,9 @@ function stand() {
     if(dealerScore > 21 && dealerHand[2].value === 11) {
         dealerHand[2].value = 1
     }
+    // if(dealerScore > 21 && dealerHand[3].value === 11) {
+    //     dealerHand[3].value = 1
+    // }
     render();
     if(dealerScore  <= 16) {
         let dCardFour = shuffledDeck.shift()
@@ -508,14 +525,29 @@ function lose() {
     shuffledDeck = [...shuffledDeck, ...dealerHand, ...playerHand]
     shuffle();
     render();
-    betOneButton.disabled = false
-    betFiveButton.disabled = false
-    betTwoFiveButton.disabled = false
-    betOneHunButton.disabled = false
-    dealButton.disabled = true
-    standButton.disabled = true
-    ddButton.disabled = true
-    hitButton.disabled = true
+    if(playerMoney <= 0) {
+        message = 'Go Home! You are out of money and drunk!'
+        betOneButton.disabled = true
+        betFiveButton.disabled = true
+        betTwoFiveButton.disabled = true
+        betOneHunButton.disabled = true
+        dealButton.disabled = true
+        standButton.disabled = true
+        ddButton.disabled = true
+        hitButton.disabled = true
+    }else{
+        betOneButton.disabled = false
+        betFiveButton.disabled = false
+        betTwoFiveButton.disabled = false
+        betOneHunButton.disabled = false
+        dealButton.disabled = true
+        standButton.disabled = true
+        ddButton.disabled = true
+        hitButton.disabled = true
+    }
+    dealerTurn = true
+    render();
+    dDisplayScore = dealerScore
 }
 
 function draw() {
@@ -530,6 +562,9 @@ function draw() {
     dealButton.disabled = true
     standButton.disabled = true
     ddButton.disabled = true
+    dealerTurn = true
+    render();
+    dDisplayScore = dealerScore
 }
 
 function bj() {
@@ -544,6 +579,9 @@ function bj() {
     dealButton.disabled = true
     standButton.disabled = true
     ddButton.disabled = true
+    dealerTurn = true
+    render();
+    dDisplayScore = dealerScore
 }
 
 function render() {
