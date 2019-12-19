@@ -1,8 +1,0 @@
-{
-  "devDependencies": {
-    "cssnano": "^4.1.10"
-  },
-  "dependencies": {
-    "netlify-cli": "^2.25.0"
-  }
-}

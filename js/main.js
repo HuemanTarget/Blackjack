@@ -275,11 +275,6 @@ function initialize() {
     betTwoFiveButton.disabled = false
     betOneHunButton.disabled = false
     dealerTurn = false
-    // dTwoCard.src = './assets/cards/back_of_card.png'
-    // pCardOne.src = './assets/cards/back_of_card.png'
-    // pCardTwo.src = './assets/cards/back_of_card.png'
-    // dCardOne.src = './assets/cards/back_of_card.png'
-    // dCardTwo.src = './assets/cards/back_of_card.png'
     render()
 }
 
@@ -291,8 +286,6 @@ for(let i = shuffledDeck.length - 1; i > 0; i--) {
     shuffledDeck[j] = temp
   }
 }
-
-// console.table(shuffledDeck)
 
 function betOne() {
     pBet = 1
@@ -417,9 +410,7 @@ function hit() {
     if(playerScore >= 22 && playerHand[2].value === 11) {
         playerHand[2].value = 1
     }
-   /*  if(playerScore > 21 && playerHand[3].value === 11) {
-        playerHand[3].value = 1
-    } */
+
     render();
     if(playerScore > 21) {
         message = 'You Busted! You Lose!<br>Bet Again!'
@@ -440,6 +431,9 @@ function doubleDown() {
     }
     let pCardThree = shuffledDeck.shift()
     playerHand = [...playerHand, pCardThree]
+    if(dealerScore > 21 && dealerHand[2].value === 11) {
+        dealerHand[2].value = 1
+    }
     render();
     hitButton.disabled = true
     standButton.disabled = true
@@ -474,9 +468,7 @@ function stand() {
     if(dealerScore > 21 && dealerHand[2].value === 11) {
         dealerHand[2].value = 1
     }
-    // if(dealerScore > 21 && dealerHand[3].value === 11) {
-    //     dealerHand[3].value = 1
-    // }
+ 
     render();
     if(dealerScore  <= 16) {
         let dCardFour = shuffledDeck.shift()
