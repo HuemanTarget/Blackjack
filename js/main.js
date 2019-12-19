@@ -301,7 +301,7 @@ function betOne() {
         dealButton.disabled = true
     }else{
     playerMoney = playerMoney - pBet
-    message = 'You bet $1. Look at the BIG Spender!'
+    message = 'You bet $1. Look at the BIG Spender!<br>Press Deal to Play!'
     betOneButton.disabled = true
     betFiveButton.disabled = true
     betTwoFiveButton.disabled = true
@@ -318,7 +318,7 @@ function betFive() {
         dealButton.disabled = true
     }else{
     playerMoney = playerMoney - pBet
-    message = 'You bet $5. Someone is feeling BALLSY today'
+    message = 'You bet $5. Someone is feeling BALLSY today!<br>Press Deal to Play!'
     betOneButton.disabled = true
     betFiveButton.disabled = true
     betTwoFiveButton.disabled = true
@@ -335,7 +335,7 @@ function betTwoFive() {
         dealButton.disabled = true
     }else{
     playerMoney = playerMoney - pBet
-    message = 'You bet $25. Look at the BIG Baller!'
+    message = 'You bet $25. Look at the BIG Baller!<br>Press Deal to Play!'
     betOneButton.disabled = true
     betFiveButton.disabled = true
     betTwoFiveButton.disabled = true
@@ -352,7 +352,7 @@ function betOneHun() {
         dealButton.disabled = true
     }else{
     playerMoney = playerMoney - pBet
-    message = 'You bet $100. Your loss will help put my kids through college!'
+    message = 'You bet $100. Your loss will help put my kids through college!<br>Press Deal to Play!'
     betOneButton.disabled = true
     betFiveButton.disabled = true
     betTwoFiveButton.disabled = true
@@ -379,15 +379,17 @@ function deal() {
     standButton.disabled = false
     hitButton.disabled = false
     if(pCardOne.value + pCardTwo.value === 21 && dCardOne.value + dCardTwo.value != 21) {
-        message = 'You hit Blackjack and win!'
+        message = 'You hit Blackjack and win!<br>Bet Again!'
+        render();
         dealerTurn = true
         bj();
     }else if(pCardOne.value + pCardTwo.value === 21 && dCardOne.value + dCardTwo.value === 21) {
-        message = 'You both hit Blackjack. Draw!'
+        message = 'You both hit Blackjack. Draw!<br>Bet Again!'
+        render();
         dealerTurn = true
         draw();
     }else if(pCardOne.value + pCardTwo.value != 21 && dCardOne.value + dCardTwo.value === 21) {
-        message = 'Dealer got Blackjack. You Lose!'
+        message = 'Dealer got Blackjack. You Lose!<br>Bet Again!'
         dealerTurn = true
         lose();
     }else if(pCardOne.value + pCardTwo.value === 10 || pCardOne.value + pCardTwo.value === 11) {
@@ -406,13 +408,13 @@ function hit() {
     standButton.disabled = false
     playerHand = [...playerHand, pCardThree]
     render();
-    if(playerScore > 21 && playerHand[0].value === 11) {
+    if(playerScore >= 22 && playerHand[0].value === 11) {
         playerHand[0].value = 1
     }
-    if(playerScore > 21 && playerHand[1].value === 11) {
+    if(playerScore >= 22 && playerHand[1].value === 11) {
         playerHand[1].value = 1
     }
-    if(playerScore > 21 && playerHand[2].value === 11) {
+    if(playerScore >= 22 && playerHand[2].value === 11) {
         playerHand[2].value = 1
     }
    /*  if(playerScore > 21 && playerHand[3].value === 11) {
@@ -420,7 +422,7 @@ function hit() {
     } */
     render();
     if(playerScore > 21) {
-        message = 'You Busted! You Lose!'
+        message = 'You Busted! You Lose!<br>Bet Again!'
         render();
         lose();
     }else{
@@ -432,7 +434,10 @@ function hit() {
 
 
 function doubleDown() {
-    playerMoney - pBet
+    playerMoney = playerMoney - pBet
+    if(pBet > playerMoney) {
+        message = 'Not enough money to Double Down! Hit or Stand!'
+    }
     let pCardThree = shuffledDeck.shift()
     playerHand = [...playerHand, pCardThree]
     render();
@@ -489,19 +494,19 @@ function stand() {
     }
     
     if(dealerScore > 21) {
-        message = 'Dealer Busts! You Win!'
+        message = 'Dealer Busts! You Win!<br>Bet Again!'
         win();
     }else if(playerScore > dealerScore && playerScore <= 21) {
-        message = 'You Win!'
+        message = 'You Win!<br>Bet Again!'
         win();
     }else if(playerScore === dealerScore && playerScore <= 21) {
-        message = 'Draw!'
+        message = 'Draw!<br>Bet Again!'
         draw();
     }else if(playerScore < dealerScore && playerScore <= 21) {
-        message = "Dealer Wins! You Lose!"
+        message = "Dealer Wins! You Lose!<br>Bet Again!"
         lose();
     }else{
-        message = 'Dealer Wins! You Lose!'
+        message = 'Dealer Wins! You Lose!<br>Bet Again!'
         lose();
     }
 
@@ -526,7 +531,7 @@ function lose() {
     shuffle();
     render();
     if(playerMoney <= 0) {
-        message = 'Go Home! You are out of money and drunk!'
+        message = 'Go Home! You are out of money and drunk!<br>No Really GO HOME! GAME IS OVER!'
         betOneButton.disabled = true
         betFiveButton.disabled = true
         betTwoFiveButton.disabled = true

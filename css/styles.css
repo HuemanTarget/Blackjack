@@ -20,6 +20,7 @@ header {
 
 .bet {
     display: block;
+    margin-left: 180px;
 }
 
 .deal {
@@ -45,3 +46,32 @@ header {
 #dealerscore {
     text-align: center;
 }
+
+.chips {
+    text-align: center;
+}
+
+button {
+    margin-left: 5px;
+}
+
+#one {
+    background: transparent;
+    border: 0px;
+}
+
+#five {
+    background: transparent;
+    border: 0px;
+}
+
+#twofive {
+    background: transparent;
+    border: 0px;
+}
+
+#onehun {
+    background: transparent;
+    border: 0px;
+}
+
