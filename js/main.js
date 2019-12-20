@@ -218,7 +218,7 @@ let shuffledDeck = [...cards];
 
 /*----- app's state (variables) -----*/
 
-let playerScore, dealerScore, playerMoney, message, playerHand, dealerHand, cardsPlayedbetFi, dealerTurn
+let playerScore, dealerScore, playerMoney, message, playerHand, dealerHand, dealerTurn
 
 
 /*----- cached element references -----*/
@@ -260,8 +260,6 @@ function initialize() {
     dealerHand = []
     cardsPlayed = []
     pBet = 0
-    pWin = 0
-    bjWin = 0
     shuffle();
     message = 'Place Your Bet!'
     pDisplayScore = ''
