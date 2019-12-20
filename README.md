@@ -37,7 +37,7 @@ A secret alternative version of the game has also bee made and can be found here
 [Breaking Blackjack](https://breaking-blackjack.netlify.com/)
 
 ```
-Future Enhancements
+FUTURE ENHANCEMENTS:
 ```
 * Add multiple decks
 * Add insurance, surrender, and splitting
